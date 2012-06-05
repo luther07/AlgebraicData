@@ -1,13 +1,23 @@
 ﻿module Lambda
-//You will define an algebraic data type (discriminated union type) that includes variants for arithmetic expressions, along with
-//the following functional language types:
+// You will define an algebraic data type (discriminated union type) that
+// includes variants for arithmetic expressions, along with the following
+// functional language types:
 
-//#1    lambda x. e:        anonymous function, that is, a designated formal argument x along with a function body in which x occurs zero or more times
-//#2    x:                  variable (presumably occurring in an expression with ancestor that is a lambda expression introducing x as a formal argument)
-//#3    e1 e2:              function application, that is, an expression (presumably representing a function) followed by another expression (presumably representing an actual argument)
-//#4    if c then e1 else   e2: conditional
-//#5    Rec:                fixed-point operator, which can be applied to an expression e to provide a declaration-free equivalent of recursion
-//      Rec is incomplete   Rec does not work
+// #1    lambda x. e:      anonymous function, that is, a designated formal
+//                         argument x along with a function body in which x
+//                         occurs zero or more times
+//#2    x:                 variable (presumably occurring in an expression with
+//                         ancestor that is a lambda expression introducing x
+//                         as a formal argument)
+//#3    e1 e2:             function application, that is, an expression
+//                         (presumably representing a function) followed by
+//                         another expression (presumably representing an
+//                         actual argument)
+//#4    if c then e1 else  e2: conditional
+//#5    Rec:               fixed-point operator, which can be applied to an
+//                         expression e to provide a declaration-free
+//                         equivalent of recursion
+//                         Rec is incomplete  Rec does not work
 
 type Expression =
     | Integer           of int
@@ -28,7 +38,7 @@ type Expression =
 let lambda(x:string, b: Expression) = Fun(x, b, Map.empty)
 
 let rec eval (x, env: Map<string,Expression>) =
-    let myvalue y = 
+    let myvalue y =
         match eval(y, env) with
             | Integer(i)            -> i
             | Negation(x)           -> failwith "this match case is not possible"
@@ -47,10 +57,10 @@ let rec eval (x, env: Map<string,Expression>) =
     match x with
         | Integer(x)                -> Integer(x)
         | Negation(x)               -> Subtraction(Integer 0, x)
-        | Addition(x,y)             -> Integer((myvalue(x) + (myvalue(y))))                              
-        | Subtraction(x,y)          -> Integer((myvalue(x) - (myvalue(y))))                                  
-        | Multiplication(x,y)       -> Integer((myvalue(x) * (myvalue(y))))                                  
-        | Division(x,y)             -> Integer((myvalue(x) / (myvalue(y))))                                  
+        | Addition(x,y)             -> Integer((myvalue(x) + (myvalue(y))))
+        | Subtraction(x,y)          -> Integer((myvalue(x) - (myvalue(y))))
+        | Multiplication(x,y)       -> Integer((myvalue(x) * (myvalue(y))))
+        | Division(x,y)             -> Integer((myvalue(x) / (myvalue(y))))
         | Var(x)                    -> match x with
                                         | string    -> env.Item(x)
         | App(e1, e2)               -> match eval(e1, env) with
@@ -94,3 +104,4 @@ let rec eval (x, env: Map<string,Expression>) =
         | Cdr(x)                    -> match x with
                                         | Cell(x, y)    ->y
                                         | (_)           ->failwith "Cdr(x) should always evaluate to Cell(x,y)"
+
