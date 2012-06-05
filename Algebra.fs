@@ -22,9 +22,10 @@ let rec eval x =
 //Define a size function that computes the number of nodes (operators and constants) in an expression.
 let rec size x =
     match x with
-    | Integer(_) -> 1
-    | Negation(x) -> 1 + size(x)
-    | Addition(x, y) -> 1 + size(x) + size(y)
-    | Subtraction(x, y) -> 1 + size(x) + size(y)
-    | Multiplication(x, y) -> 1 + size(x) + size(y)
-    | Division(x, y) -> 1 + size(x) + size(y)
+    | Integer(_)            -> 1
+    | Negation(x)           -> 1 + size(x)
+    | Addition(x, y)        -> 1 + size(x) + size(y)
+    | Subtraction(x, y)     -> 1 + size(x) + size(y)
+    | Multiplication(x, y)  -> 1 + size(x) + size(y)
+    | Division(x, y)        -> 1 + size(x) + size(y)
+
